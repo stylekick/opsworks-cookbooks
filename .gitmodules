@@ -1,0 +1,3 @@
+[submodule "opsworks-rails-precompile"]
+	path = opsworks-rails-precompile
+	url = https://github.com/stylekick/opsworks-rails-precompile.git
