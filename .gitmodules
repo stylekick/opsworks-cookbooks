@@ -1,3 +1,6 @@
 [submodule "opsworks-rails-precompile"]
 	path = opsworks-rails-precompile
 	url = https://github.com/stylekick/opsworks-rails-precompile.git
+[submodule "opsworks_custom_env"]
+	path = opsworks_custom_env
+	url = https://github.com/joeyAghion/opsworks_custom_env.git
