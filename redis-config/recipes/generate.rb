@@ -1,9 +1,11 @@
 node[:deploy].each do |app_name, deploy_config|
   # determine root folder of new app deployment
   app_root = "#{deploy_config[:deploy_to]}/current"
+  
+  deploy = node[:deploy][app_name]
 
   # use template .redis.yml.erb. to generate 'config/redis.yml'
-  template "#{app_root}/config/redis.yml" do
+  template "#{deploy[:deploy_to]}/shared/config/redis.yml" do
     source "redis.yml.erb"
     cookbook "redis-config"
 
