@@ -1,6 +1,8 @@
-check process resque_worker_fast_qs
-  with pidfile "<%= node[:opsworks_agent][:shared_dir] %>/pid/resque-fast-qs.pid"
-  start program = "/usr/bin/env HOME=/home/user PATH=/usr/local/bin:/usr/local/ruby/bin:/usr/bin:/bin:$PATH /bin/sh -l -c 'cd /srv/<%= node[:opsworks][:applications][0][:slug_name] %>/current; nohup bundle exec rake environment resque:work RAILS_ENV=worker QUEUE=clean_cache,metrics,mailer VERBOSE=1 PIDFILE=tmp/pids/resque_worker_fast_qs.pid >> log/resque_worker_fast_qs.log 2>&1'" as uid deploy and gid deploy
-  stop program = "/bin/sh -c 'cd /srv/<%= node[:opsworks][:applications][0][:slug_name] %>/current && kill -9 $(cat tmp/pids/resque_worker_fast_qs.pid) && rm -f tmp/pids/resque_worker_fast_qs.pid; exit 0;'"
-  if totalmem is greater than 300 MB for 10 cycles then restart  # eating up memory?
-  group resque_workers
+<% @resque[:pool].each do |key, config| %>
+<% identifier = "#{@application}-#{key}" %>
+check process resque.<%= identifier %>
+  with pidfile <%= @deploy[:deploy_to] %>/shared/pids/resque.<%= identifier %>.pid
+  start program = "/bin/su - <%= @deploy[:user] %> -c 'cd <%= @deploy[:current_path] %> && nohup RAILS_ENV=<%= @deploy[:rails_env] %> bundle exec rake resque:work <%= ("QUEUE=#{config['queues']}" if config['queues']) VERBOSE=1 PIDFILE=<%= @deploy[:deploy_to] %>/shared/pids/resque.<%= identifier %>.pid >> log/resque.<%= identifier %>.log 2>&1'" as uid deploy and gid deploy
+  stop program = "/bin/su - <%= @deploy[:user] %> -c 'cd <%= @deploy[:current_path] %> && kill -9 $(cat <%= @deploy[:deploy_to] %>/shared/pids/resque.<%= identifier %>.pid) && rm -f <%= @deploy[:deploy_to] %>/shared/pids/resque.<%= identifier %>.pid; exit 0;'"
+  group resque_<%= @application %>_group
+<% end %>
