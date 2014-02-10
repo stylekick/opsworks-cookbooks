@@ -2,7 +2,7 @@
 <% identifier = "#{@application}-#{key}" %>
 check process resque.<%= identifier %>
   with pidfile <%= @deploy[:deploy_to] %>/shared/pids/resque.<%= identifier %>.pid
-  start program = "/bin/su - <%= @deploy[:user] %> -c 'cd <%= @deploy[:current_path] %> && nohup RAILS_ENV=<%= @deploy[:rails_env] %> bundle exec rake resque:work <%= ("QUEUE=#{config['queues']}" if config['queues']) %> VERBOSE=1 PIDFILE=<%= @deploy[:deploy_to] %>/shared/pids/resque.<%= identifier %>.pid >> log/resque.<%= identifier %>.log 2>&1'" as uid deploy and gid deploy
+  start program = "/bin/su - <%= @deploy[:user] %> -c 'cd <%= @deploy[:current_path] %> && nohup RAILS_ENV=<%= @deploy[:rails_env] %> bundle exec rake resque:work <%= ("QUEUE=#{config['queues']}" if config['queues']) %> VERBOSE=1 PIDFILE=<%= @deploy[:deploy_to] %>/shared/pids/resque.<%= identifier %>.pid >> log/resque.<%= identifier %>.log 2>&1'"
   stop program = "/bin/su - <%= @deploy[:user] %> -c 'cd <%= @deploy[:current_path] %> && kill -9 $(cat <%= @deploy[:deploy_to] %>/shared/pids/resque.<%= identifier %>.pid) && rm -f <%= @deploy[:deploy_to] %>/shared/pids/resque.<%= identifier %>.pid; exit 0;'"
   group resque_<%= @application %>_group
 <% end %>
