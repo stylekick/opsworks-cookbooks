@@ -1,0 +1,6 @@
+check process resque_worker_fast_qs
+  with pidfile "<%= node[:opsworks_agent][:shared_dir] %>/pid/resque-fast-qs.pid"
+  start program = "/usr/bin/env HOME=/home/user PATH=/usr/local/bin:/usr/local/ruby/bin:/usr/bin:/bin:$PATH /bin/sh -l -c 'cd /srv/<%= node[:opsworks][:applications][0][:slug_name] %>/current; nohup bundle exec rake environment resque:work RAILS_ENV=worker QUEUE=clean_cache,metrics,mailer VERBOSE=1 PIDFILE=tmp/pids/resque_worker_fast_qs.pid >> log/resque_worker_fast_qs.log 2>&1'" as uid deploy and gid deploy
+  stop program = "/bin/sh -c 'cd /srv/<%= node[:opsworks][:applications][0][:slug_name] %>/current && kill -9 $(cat tmp/pids/resque_worker_fast_qs.pid) && rm -f tmp/pids/resque_worker_fast_qs.pid; exit 0;'"
+  if totalmem is greater than 300 MB for 10 cycles then restart  # eating up memory?
+  group resque_workers
