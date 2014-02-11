@@ -4,8 +4,10 @@
 
 node[:deploy].each do |application, deploy|
   
-  execute "stop resque workers for Rails app #{application}" do
-    files.split("\n").each do |pid|
+  files = `cd #{deploy[:deploy_to]}; ls -1 tmp/pids/resque_work*.pid`
+  files.split("\n").each do |pid|
+    
+    execute "stop resque worker #{pid} for Rails app #{application}" do
       command "kill -s QUIT `cat #{pid}` && rm #{pid}"
     end
   end
