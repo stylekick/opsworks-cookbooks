@@ -1,6 +1,6 @@
 # Adapted from unicorn::rails: https://github.com/aws/opsworks-cookbooks/blob/master/unicorn/recipes/rails.rb
 
-include_recipe "resque::service"
+# include_recipe "resque::service"
 
 # setup delayed_job service per app
 node[:deploy].each do |application, deploy|

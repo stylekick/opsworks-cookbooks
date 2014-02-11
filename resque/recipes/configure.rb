@@ -1,7 +1,7 @@
 # Adapted from rails::configure: https://github.com/aws/opsworks-cookbooks/blob/master/rails/recipes/configure.rb
 
 include_recipe "deploy"
-include_recipe "resque::service"
+# include_recipe "resque::service"
 
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
