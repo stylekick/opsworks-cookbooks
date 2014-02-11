@@ -2,7 +2,7 @@ node[:deploy].each do |app_name, deploy_config|
   # determine root folder of new app deployment
   app_root = "#{deploy_config[:deploy_to]}/current"
   
-  execute "restart Rails app #{application}" do
+  execute "restart Rails app #{app_name}" do
     cwd deploy[:current_path]
     command node[:opsworks][:rails_stack][:restart_command]
     action :nothing #doesn't execute unless called/notified from another command
@@ -23,7 +23,7 @@ node[:deploy].each do |app_name, deploy_config|
       :figaro => deploy_config[:figaro] || {}
     )
     
-    notifies :run, "execute[restart Rails app #{application}]" #restart the rails app to update the config
+    notifies :run, "execute[restart Rails app #{app_name}]" #restart the rails app to update the config
 
     # only generate a file if there is Redis configuration
     not_if do
