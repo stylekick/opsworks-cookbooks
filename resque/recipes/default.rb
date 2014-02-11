@@ -12,7 +12,8 @@ node[:deploy].each do |application, deploy|
   
   3.times do
     pid = "#{deploy[:deploy_to]}/tmp/pids/resque_work_#{worker_id}.pid"
-    execute "create new resque worker" do     
+    execute "create new resque worker" do
+      cwd deploy[:deploy_to]      
       command "bundle exec rake resque:work RAILS_ENV=production QUEUE=* PIDFILE=#{pid} BACKGROUND=yes VERBOSE=1"
     end
     worker_id += 1

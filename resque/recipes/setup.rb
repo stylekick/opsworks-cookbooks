@@ -22,6 +22,8 @@ node[:deploy].each do |application, deploy|
   
   
   
+  
+  
   # Allow deploy user to restart workers
   
   # Chef::Log.debug("Creating sudoer for #{deploy[:user]}")
