@@ -3,7 +3,7 @@ node[:deploy].each do |app_name, deploy_config|
   app_root = "#{deploy_config[:deploy_to]}/current"
   
   execute "restart Rails app #{app_name}" do
-    cwd deploy[:current_path]
+    cwd deploy_config[:current_path]
     command node[:opsworks][:rails_stack][:restart_command]
     action :nothing #doesn't execute unless called/notified from another command
   end
