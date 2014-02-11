@@ -1,6 +1,12 @@
 node[:deploy].each do |app_name, deploy_config|
   # determine root folder of new app deployment
   app_root = "#{deploy_config[:deploy_to]}/current"
+  
+  execute "restart Rails app #{application}" do
+    cwd deploy[:current_path]
+    command node[:opsworks][:rails_stack][:restart_command]
+    action :nothing #doesn't execute unless called/notified from another command
+  end
 
   # use template .application.yml.erb. to generate 'config/application.yml'
   template "#{app_root}/config/application.yml" do
@@ -16,6 +22,8 @@ node[:deploy].each do |app_name, deploy_config|
     variables(
       :figaro => deploy_config[:figaro] || {}
     )
+    
+    notifies :run, "execute[restart Rails app #{application}]" #restart the rails app to update the config
 
     # only generate a file if there is Redis configuration
     not_if do
