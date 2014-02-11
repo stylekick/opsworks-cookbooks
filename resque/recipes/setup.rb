@@ -21,11 +21,13 @@ node[:deploy].each do |application, deploy|
   end
   
   # Allow deploy user to restart workers
-  # template "/etc/sudoers.d/#{deploy[:user]}" do
-  #   mode 0440
-  #   source "sudoer.erb"
-  #   variables :user => deploy[:user]
-  # end
+  
+  Chef::Log.debug("Creating sudoer for #{deploy[:user]}")
+  template "/etc/sudoers.d/#{deploy[:user]}" do
+    mode 0440
+    source "sudoer.erb"
+    variables :user => deploy[:user]
+  end
   
   template "#{node[:monit][:includes_dir]}/resque_#{application}.monitrc" do
     mode 0644
