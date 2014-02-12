@@ -7,3 +7,6 @@
 [submodule "phantomjs"]
 	path = phantomjs
 	url = https://github.com/customink-webops/phantomjs
+[submodule "build-essential"]
+	path = build-essential
+	url = https://github.com/opscode-cookbooks/build-essential.git
