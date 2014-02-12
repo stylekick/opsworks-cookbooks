@@ -1,4 +1,4 @@
-include_recipe "deploy"
+include_recipe "resque-worker::deploy"
 # include_recipe "opsworks_delayed_job::service"
 
 node[:deploy].each do |application, deploy|

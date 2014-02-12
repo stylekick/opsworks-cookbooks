@@ -4,3 +4,6 @@
 [submodule "opsworks_custom_env"]
 	path = opsworks_custom_env
 	url = https://github.com/joeyAghion/opsworks_custom_env.git
+[submodule "phantomjs"]
+	path = phantomjs
+	url = https://github.com/customink-webops/phantomjs
