@@ -19,7 +19,8 @@ node[:deploy].each do |application, deploy|
     deploy_data deploy 
     app application
   end
+  
+  #auto-bundle
+  OpsWorks::RailsConfiguration.bundle(application, node[:deploy][application], deploy[:deploy_to] + "/current")
 end
 
-#auto-bundle
-OpsWorks::RailsConfiguration.bundle(application, node[:deploy][application], release_path)
