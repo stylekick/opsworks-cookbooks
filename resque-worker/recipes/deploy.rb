@@ -39,3 +39,5 @@ node[:deploy].each do |application, deploy|
   OpsWorks::RailsConfiguration.bundle(application, node[:deploy][application], deploy[:deploy_to] + "/current")
 end
 
+include_recipe 'resque-worker::service'
+
