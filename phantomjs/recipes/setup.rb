@@ -21,3 +21,5 @@ bash "install phantomjs" do
     tar jxf ${CACHE_DIR}/${FILE_NAME} -C $CACHE_DIR
     sudo mv ${CACHE_DIR}/${ARCHIVE_NAME}/bin/phantomjs ${BIN_DIR}/phantomjs
     EOH
+    
+end
