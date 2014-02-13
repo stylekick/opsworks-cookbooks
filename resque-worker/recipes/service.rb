@@ -13,7 +13,7 @@ node[:deploy].each do |application, deploy|
 
   execute 'start resque' do
     cwd deploy[:deploy_to] + "/current"
-    command 'sudo QUEUE=* RAILS_ENV=production BACKGROUND=yes bundle exec rake resque:work'
+    command 'sudo QUEUE=* RAILS_ENV=production BACKGROUND=yes COUNT=3 bundle exec rake resque:workers'
   end
 
   execute 'restart resque' do
