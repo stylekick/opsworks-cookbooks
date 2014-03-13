@@ -8,7 +8,7 @@ node[:deploy].each do |application, deploy|
     owner 'root'
     group 'root'
     mode 0644
-    source "resque.monitrc.conf.erb"
+    source "resque.monitrc.erb"
     variables({
       :worker_count => node[:resque][:worker_count],
       :app_name => application,
