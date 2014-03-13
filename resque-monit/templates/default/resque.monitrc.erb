@@ -1,7 +1,7 @@
 <% (@worker_count || 1).times do |num| %>
 check process resque_<%= num %>
   with pidfile <%= @deploy[:deploy_to] %>/shared/pids/resque<%= num %>.pid
-  start program = "/usr/bin/sudo su deploy -c 'cd <%= @deploy[:deploy_to] %>/current; RAILS_ENV=production QUEUE=* TERM_CHILD=1 bundle exec rake resque:work -P <%= @deploy[:deploy_to] %>/shared/pids/resque<%= num %>.pid -L log/resque.log'" with timeout 90 seconds
+  start program = "sudo su deploy -c 'cd <%= @deploy[:deploy_to] %>/current; nohup bundle exec rake resque:work RAILS_ENV=production QUEUE=* VERBOSE=1 PIDFILE=tmp/pids/resque_worker_<%= num %>.pid >> $HOME/resque_<%= num %>.log 2>&1 '" with timeout 90 seconds
   stop program = "/bin/bash -c '/bin/kill -TERM `cat <%= @deploy[:deploy_to] %>/shared/pids/resque<%= num %>.pid`'" with timeout 180 seconds
   group resque
 <% end %>
