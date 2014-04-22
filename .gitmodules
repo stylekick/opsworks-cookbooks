@@ -10,3 +10,6 @@
 [submodule "build-essential"]
 	path = build-essential
 	url = https://github.com/opscode-cookbooks/build-essential.git
+[submodule "opsworks_sidekiq"]
+	path = opsworks_sidekiq
+	url = https://github.com/drakerlabs/opsworks_sidekiq
